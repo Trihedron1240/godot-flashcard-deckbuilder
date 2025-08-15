@@ -1,5 +1,6 @@
 extends Node
 class_name Player
+# Player character that draws question cards from resource files.
 
 var deck: Array = []
 var draw_pile: Array = []
@@ -10,14 +11,27 @@ var hp: int = 30
 
 const HAND_LIMIT := 10
 
-func build_starting_deck() -> void:
-    var loader := preload("res://data/question_loader.gd").new()
-    deck = loader.load_from_json("res://data/sample_questions.json")
+func build_starting_deck() -> Array:
+    # Load QuestionCard resources from the player's card directory.
+    var dir_path := "res://characters/Player/cards"
+    deck = []
+    var dir := DirAccess.open(dir_path)
+    if dir:
+        dir.list_dir_begin()
+        var f := dir.get_next()
+        while f != "":
+            if not dir.current_is_dir() and (f.ends_with(".tres") or f.ends_with(".res")):
+                var res := load(dir_path + "/" + f)
+                if res:
+                    deck.append(res)
+            f = dir.get_next()
+        dir.list_dir_end()
     draw_pile = deck.duplicate()
     discard_pile.clear()
     hand.clear()
     energy = 3
     randomize()
+    return deck
 
 func shuffle() -> void:
     var n := draw_pile.size()

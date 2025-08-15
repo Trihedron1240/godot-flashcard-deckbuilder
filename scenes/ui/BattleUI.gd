@@ -1,5 +1,6 @@
 extends Control
 class_name BattleUI
+# Handles battle UI and mediates question prompts.
 
 var battle: Battle
 
@@ -10,6 +11,7 @@ var battle: Battle
 
 func _ready() -> void:
     end_turn_button.pressed.connect(func(): Events.end_turn_requested.emit())
+    Events.request_question.connect(_on_request_question)
 
 func refresh() -> void:
     update_stats()
@@ -32,17 +34,32 @@ func refresh_hand() -> void:
         ui.setup(card, battle.player, [battle.enemy])
         hand_container.add_child(ui)
 
-func show_question(card: QuestionCard) -> void:
+func _on_request_question(card, targets, stats) -> void:
     var q_scene := preload("res://scenes/ui/QuestionUI.tscn")
     var ui := q_scene.instantiate()
     add_child(ui)
-    ui.show_question(card)
     ui.answered.connect(func(correct: bool):
         if correct:
-            battle.enemy.take_damage(5 + 3 * card.difficulty)
+            _apply_correct_effects(card, targets, stats)
         else:
-            battle.player.hp -= 3
-        battle.register_answer(correct)
+            _apply_incorrect_effects(card, targets, stats)
         ui.queue_free()
         Events.card_resolved.emit(card)
     )
+    ui.show_question(card, targets, stats)
+
+func _apply_correct_effects(card, targets, stats) -> void:
+    for t in targets:
+        if t != null and t.has_method("take_damage"):
+            t.take_damage(5 + 3 * card.difficulty)
+    if battle != null and battle.has_method("register_answer"):
+        battle.register_answer(true)
+
+func _apply_incorrect_effects(card, targets, stats) -> void:
+    if stats != null:
+        if stats.has_method("take_damage"):
+            stats.take_damage(3)
+        elif stats.has_property("hp"):
+            stats.hp -= 3
+    if battle != null and battle.has_method("register_answer"):
+        battle.register_answer(false)

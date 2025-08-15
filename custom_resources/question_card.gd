@@ -1,15 +1,13 @@
 extends Card
 class_name QuestionCard
+# Defines a multiple-choice question card used by the flashcard deck builder.
 
-@export var question: String = ""
+@export var question: String
 @export var choices: PackedStringArray = PackedStringArray()
 @export var correct_index: int = 0
-@export_multiline var explanation: String = ""
+@export_multiline var explanation: String
+@export var tags: PackedStringArray = PackedStringArray()
 @export_range(1,3,1) var difficulty: int = 1
 
-var streak: int = 0
-var ease: float = 2.5
-var due_day: int = 0
-
-func play(targets: Array, char_stats: Node) -> void:
+func play(targets: Array, char_stats) -> void:
     Events.request_question.emit(self, targets, char_stats)

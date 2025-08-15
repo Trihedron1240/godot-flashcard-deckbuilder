@@ -10,7 +10,7 @@ signal answered(was_correct: bool)
 
 var current_card: QuestionCard
 
-func show_question(card: QuestionCard) -> void:
+func show_question(card: QuestionCard, _targets = null, _stats = null) -> void:
     current_card = card
     question_label.text = card.question
     explanation_label.text = card.explanation
@@ -26,6 +26,8 @@ func show_question(card: QuestionCard) -> void:
 
 func _on_choice_selected(index: int) -> void:
     var correct := index == current_card.correct_index
+    for b in choices_container.get_children():
+        b.disabled = true
     explanation_label.visible = true
     continue_button.disabled = false
-    continue_button.pressed.connect(func(): answered.emit(correct), CONNECT_ONESHOT)
+    continue_button.pressed.connect(func(): answered.emit(correct), CONNECT_ONE_SHOT)
