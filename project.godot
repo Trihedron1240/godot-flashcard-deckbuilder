@@ -1,0 +1,6 @@
+[application]
+config/name="FlashcardDeckbuilder"
+run/main_scene="res://scenes/main/Main.tscn"
+
+[autoload]
+Events="*res://autoload/Events.gd"
