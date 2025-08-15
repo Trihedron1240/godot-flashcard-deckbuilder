@@ -1,5 +1,6 @@
 extends Node
 class_name Battle
+# Core battle scene; delegates question prompts to BattleUI via Events.
 
 @onready var player: Player = $Player
 @onready var enemy: Enemy = $Enemy
@@ -13,16 +14,12 @@ func _ready() -> void:
     player.shuffle()
     player.draw(5)
     ui.refresh()
-    Events.request_question.connect(_on_request_question)
     Events.card_resolved.connect(_on_card_resolved)
     Events.end_turn_requested.connect(_on_end_turn_requested)
 
 func register_answer(correct: bool) -> void:
     if not correct:
         wrong_answered = true
-
-func _on_request_question(card, targets, stats) -> void:
-    ui.show_question(card)
 
 func _on_card_resolved(card) -> void:
     player.discard(card)

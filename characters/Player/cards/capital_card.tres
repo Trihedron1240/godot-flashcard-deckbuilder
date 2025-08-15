@@ -1,0 +1,12 @@
+[gd_resource type="QuestionCard" load_steps=2 format=3]
+
+[ext_resource path="res://custom_resources/question_card.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource("1")
+question = "What is the capital of France?"
+choices = PackedStringArray("Berlin", "Paris", "Rome")
+correct_index = 1
+explanation = "Paris is the capital of France."
+tags = PackedStringArray()
+difficulty = 1

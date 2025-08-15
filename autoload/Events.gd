@@ -1,5 +1,5 @@
 extends Node
-class_name Events
+# Autoloaded as "Events"; no class_name to avoid singleton name collision.
 
 signal request_question(card, targets, stats)
 signal card_resolved(card)
