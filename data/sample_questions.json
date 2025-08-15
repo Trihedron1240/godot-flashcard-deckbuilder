@@ -1,0 +1,25 @@
+[
+  {
+    "id": "phys_work_1",
+    "question": "Can work be negative?",
+    "choices": ["No","Yes, when force opposes displacement","Only in circular motion","Only at constant speed"],
+    "answer_index": 1,
+    "explanation": "W=F·d·cosθ; opposite directions → cosθ<0.",
+    "tags": ["Physics","Work"],
+    "difficulty": 1
+  },
+  {
+    "id": "towing_rigid_bar",
+    "question": "Why is a rigid tow bar better than a rope/chain, and which Newton’s law applies most?",
+    "choices": [
+      "Because bars are heavier; Newton’s 3rd",
+      "Smoother controlled force & can push; mainly Newton’s 2nd",
+      "Ropes reduce mass; Newton’s 1st",
+      "Bars increase friction; Newton’s 1st"
+    ],
+    "answer_index": 1,
+    "explanation": "Rigid bars avoid slack jerks and can transmit compression. F=ma → smooth a.",
+    "tags": ["Mechanics"],
+    "difficulty": 1
+  }
+]
